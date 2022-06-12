@@ -1,10 +1,11 @@
 <template>
-  <button :class="$style.button" v-text="text"></button>
+  <button :class="[$style.button, $style[color]]" v-text="text"></button>
 </template>
 
 <script setup lang="ts">
 defineProps<{
   text: string;
+  color: string;
 }>();
 </script>
 
@@ -16,12 +17,31 @@ defineProps<{
   color: #fff;
   font-style: normal;
   font-weight: 400;
-  padding-left: $space-3;
-  padding-right: $space-3;
   box-shadow: inset 0 0 0 1px $color-white-010;
+  outline: none;
+  padding: calc($size-1 - 2px) calc($size-2 - 2px);
+  border-radius: $radius-1;
+  border: 0;
+  cursor: pointer;
 
   &:hover {
     background-color: darken($color-main, 10%);
+  }
+
+  &:active {
+    opacity: 0.8;
+    position: relative;
+    top: 1px;
+  }
+
+  &.gray {
+    background: $color-foreground-elevation-3;
+    box-shadow: inset 0 0 0 1px $color-white-010;
+    color: $color-white-060;
+
+    &:hover {
+      background-color: $color-foreground-elevation-4;
+    }
   }
 }
 </style>

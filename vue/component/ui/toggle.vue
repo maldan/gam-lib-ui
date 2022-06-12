@@ -36,6 +36,8 @@ defineProps<{
     width: 100%;
     justify-content: center;
     align-items: center;
+    border: 0;
+    cursor: pointer;
 
     &.selected {
       background-color: $color-blue;
