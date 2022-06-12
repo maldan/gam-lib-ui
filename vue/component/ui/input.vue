@@ -1,12 +1,17 @@
 <template>
   <div :class="$style.container">
-    <input :class="$style.input" type="text" />
+    <input
+      :class="$style.input"
+      type="text"
+      :value="modelValue"
+      @input="$emit('update:modelValue', $event.target.value)"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
 defineProps<{
-  text: string;
+  modelValue: string;
 }>();
 </script>
 
