@@ -1,16 +1,21 @@
 <template>
-  <button :class="[$style.button, $style[color]]" v-text="text"></button>
+  <button :class="[$style.button, $style[color]]">
+    <slot name="icon-left"></slot>
+    <slot />
+    <div v-if="text">{{ text }}</div>
+    <slot name="icon-right"></slot>
+  </button>
 </template>
 
 <script setup lang="ts">
 defineProps<{
-  text: string;
+  text?: string;
   color?: string;
 }>();
 </script>
 
 <style module lang="scss">
-@import "../../vars";
+@import '../../vars';
 
 .button {
   background: $color-main;
@@ -23,6 +28,9 @@ defineProps<{
   border-radius: $radius-1;
   border: 0;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   &:hover {
     background-color: darken($color-main, 10%);
