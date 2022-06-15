@@ -1,20 +1,27 @@
 <template>
-  <div
-    @click="$emit('update:modelValue', !modelValue)"
-    :class="[$style.checkbox, modelValue ? $style.selected : null]"
-  >
+  <div @click="change" :class="[$style.checkbox, modelValue ? $style.selected : null]">
     <div></div>
   </div>
 </template>
 
 <script setup lang="ts">
-defineProps<{
+import { defineEmits } from 'vue';
+
+const props = defineProps<{
   modelValue: boolean;
 }>();
+
+const emit = defineEmits(['update:modelValue', 'change']);
+
+function change() {
+  const v = !props.modelValue;
+  emit('update:modelValue', v);
+  emit('change', v);
+}
 </script>
 
 <style module lang="scss">
-@import "../../vars";
+@import '../../vars';
 
 .checkbox {
   background-color: $color-white-010;

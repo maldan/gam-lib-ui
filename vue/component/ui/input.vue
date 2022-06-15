@@ -5,6 +5,7 @@
       type="text"
       :value="modelValue"
       @input="$emit('update:modelValue', $event.target.value)"
+      :placeholder="placeholder"
     />
   </div>
 </template>
@@ -12,11 +13,12 @@
 <script setup lang="ts">
 defineProps<{
   modelValue: string;
+  placeholder?: string;
 }>();
 </script>
 
 <style module lang="scss">
-@import "../../vars";
+@import '../../vars';
 
 .container {
   height: $space-4;
@@ -35,6 +37,10 @@ defineProps<{
     border-radius: $radius-1;
     border: 1px solid transparent;
     box-sizing: border-box;
+
+    &:focus {
+      box-shadow: inset 0 0 0 1px $color-blue;
+    }
   }
 }
 </style>

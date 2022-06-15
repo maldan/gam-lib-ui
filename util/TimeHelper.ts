@@ -1,6 +1,11 @@
 export class TimeHelper {
+  static HMtoSeconds(hms: string): number {
+    const a = hms.split(':');
+    return +a[0] * 60 * 60 + +a[1] * 60;
+  }
+
   static HMStoSeconds(hms: string): number {
-    const a = hms.split(":"); // split it at the colons
+    const a = hms.split(':'); // split it at the colons
     return +a[0] * 60 * 60 + +a[1] * 60 + +a[2];
   }
 

@@ -12,7 +12,7 @@ defineProps<{
 </script>
 
 <style module lang="scss">
-@import "../../vars";
+@import '../../vars';
 
 .section {
   background-color: $color-ui-bg;
@@ -25,6 +25,8 @@ defineProps<{
 
   .header {
     margin-bottom: 10px;
+    font-size: 12px;
+    font-weight: 600;
   }
 }
 </style>

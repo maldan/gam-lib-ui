@@ -10,7 +10,7 @@
 <script setup lang="ts">
 defineProps<{
   text?: string;
-  color?: "gray";
+  color?: 'gray' | 'darkgray';
 }>();
 </script>
 
@@ -50,6 +50,11 @@ defineProps<{
     &:hover {
       background-color: $color-foreground-elevation-4;
     }
+  }
+
+  &.darkgray {
+    background: $color-foreground-elevation-1;
+    box-shadow: none;
   }
 }
 </style>
