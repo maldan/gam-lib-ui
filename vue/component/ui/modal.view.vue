@@ -4,8 +4,12 @@
   </Modal>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
+<script setup lang="ts">
+import Modal from '../ui/modal.vue';
+import { useModalStore } from '@/gam-lib-ui/vue/store/modal';
+
+const modalStore = useModalStore();
+/*import { defineComponent } from 'vue';
 import { useModalStore } from '@/gam-lib-ui/vue/store/modal';
 import Modal from '../ui/modal.vue';
 
@@ -19,7 +23,7 @@ export default defineComponent({
       modalStore: useModalStore(),
     };
   },
-});
+});*/
 </script>
 
 <style module lang="scss"></style>

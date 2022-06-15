@@ -4,15 +4,15 @@ export const useModalStore = defineStore({
   id: 'modal',
   state: () => ({
     name: '',
-    data: {} as Record<string, unknown>,
-    onOk: (data: Record<string, unknown>) => {},
+    data: {} as Record<string, any>,
+    onOk: (data: Record<string, any>) => {},
     onCancel: () => {},
   }),
   actions: {
     show(
       name: string,
-      data?: Record<string, unknown>,
-      onOk?: (data: Record<string, unknown>) => void,
+      data?: Record<string, any>,
+      onOk?: (data: Record<string, any>) => void,
       onCancel?: () => void,
     ): void {
       this.name = name;

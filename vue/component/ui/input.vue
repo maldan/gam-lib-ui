@@ -1,12 +1,6 @@
 <template>
   <div :class="$style.container">
-    <input
-      :class="$style.input"
-      type="text"
-      :value="modelValue"
-      @input="$emit('update:modelValue', $event.target.value)"
-      :placeholder="placeholder"
-    />
+    <input :class="$style.input" type="text" :value="modelValue" @input="update" :placeholder="placeholder" />
   </div>
 </template>
 
@@ -15,6 +9,12 @@ defineProps<{
   modelValue: string;
   placeholder?: string;
 }>();
+
+const emit = defineEmits(['update:modelValue']);
+
+function update(e: Event) {
+  emit('update:modelValue', (e.target as HTMLInputElement).value);
+}
 </script>
 
 <style module lang="scss">
