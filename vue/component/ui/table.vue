@@ -36,6 +36,7 @@ const cHeader = computed(() => {
 });
 
 const dataFormat = (key: string, x: any) => {
+  if (!props.format) return x;
   if (props.format[key]) {
     if (typeof props.format[key] === "function") {
       return props.format[key](x);
