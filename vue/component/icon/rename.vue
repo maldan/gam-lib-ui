@@ -10,6 +10,7 @@
           width: size + 'px',
           height: size + 'px',
         }"
+        :class="clickable ?$style.clickable :null"
       >
         
 <path d="M12.768 7.98341H4V16.0166H12.768V7.98341ZM10.489 14.4937H6.19088V13.5562H10.489L10.489 14.4937Z" :fill="color"/>
@@ -25,6 +26,7 @@
         defineProps<{
           color?: string;
           size?: number | string;
+          clickable?: boolean;
         }>(),
         {
           color: "#fefefe",
@@ -36,6 +38,19 @@
     <style module lang="scss">
       svg {
         display: block;
+      }
+      .clickable {
+        cursor: pointer;
+        
+        &:hover {
+           opacity: 0.8;
+        }
+      
+        &:active {
+          opacity: 0.7;
+          position: relative;
+          top: 1px;
+        }
       }
     </style>
   

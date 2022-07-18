@@ -10,7 +10,7 @@
 <script setup lang="ts">
 defineProps<{
   text?: string;
-  color?: 'gray' | 'darkgray';
+  color?: 'gray' | 'darkgray' | 'empty';
 }>();
 </script>
 
@@ -54,6 +54,13 @@ defineProps<{
 
   &.darkgray {
     background: $color-foreground-elevation-1;
+    box-shadow: none;
+  }
+
+  &.empty {
+    background: transparent;
+    padding: 0;
+    border: 0;
     box-shadow: none;
   }
 }

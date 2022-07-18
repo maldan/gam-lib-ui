@@ -1,5 +1,5 @@
 <template>
-  <div :class="$style.container">
+  <div :class="$style.container" :style="{ gridTemplateColumns: `repeat(${list.length}, 1fr)` }">
     <button
       @click="$router.push(x.url)"
       v-for="x in list"
@@ -18,11 +18,11 @@ defineProps<{
 </script>
 
 <style module lang="scss">
-@import "../../vars";
+@import '../../vars';
 
 .container {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  // grid-template-columns: 1fr;
   gap: $space-1;
 
   .button {

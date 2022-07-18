@@ -1,15 +1,8 @@
 <template>
   <div :class="$style.container">
-    <div :class="$style.inputContainer">
-      <input
-        :class="$style.input"
-        type="text"
-        :value="selectedValue"
-        @click="isShowList = !isShowList"
-        :placeholder="placeholder"
-        @blur="blur"
-      />
-      <IconArrowDownSmall style="position: absolute; right: 5px; top: 5px" />
+    <div @click="isShowList = !isShowList" :class="$style.inputContainer">
+      <input :class="$style.input" type="text" :value="selectedValue" :placeholder="placeholder" @blur="blur" />
+      <IconArrowDownSmall style="position: absolute; right: 8px; top: 8px" />
     </div>
     <div v-if="isShowList" :class="$style.list">
       <div
@@ -27,8 +20,8 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from "vue";
-import { IconArrowDownSmall } from "@/gam-lib-ui/vue/component/icon";
+import { computed, ref } from 'vue';
+import { IconArrowDownSmall } from '@/gam-lib-ui/vue/component/icon';
 
 const props = defineProps<{
   modelValue: unknown;
@@ -38,15 +31,13 @@ const props = defineProps<{
 
 const isShowList = ref(false);
 
-const emit = defineEmits(["update:modelValue"]);
+const emit = defineEmits(['update:modelValue']);
 
-const selectedValue = computed(
-  () => props.list.filter((x: any) => x.value === props.modelValue)?.[0]?.label
-);
+const selectedValue = computed(() => props.list.filter((x: any) => x.value === props.modelValue)?.[0]?.label);
 
 function click(v: unknown) {
   console.log(v);
-  emit("update:modelValue", v);
+  emit('update:modelValue', v);
 }
 
 function blur() {
@@ -57,16 +48,17 @@ function blur() {
 </script>
 
 <style module lang="scss">
-@import "../../vars";
+@import '../../vars';
 
 .container {
-  height: $space-4;
+  // height: $space-4;
   width: 100%;
   position: relative;
-  z-index: 10;
+  // z-index: 1;
 
   .inputContainer {
     display: flex;
+    cursor: pointer;
 
     .input {
       appearance: none;
@@ -74,14 +66,13 @@ function blur() {
       line-height: 1rem;
       padding: $space-1 $space-2;
       width: 100%;
-      height: 100%;
+      height: $space-4;
       min-height: 24px;
       outline: none;
       background: $color-foreground-elevation-1;
       border-radius: $radius-1;
       border: 1px solid transparent;
       box-sizing: border-box;
-      cursor: pointer;
 
       &:focus {
         box-shadow: inset 0 0 0 1px $color-blue;
@@ -98,6 +89,7 @@ function blur() {
     // padding: $space-1;
     width: 100%;
     border: 1px solid $color-white-020;
+    z-index: 10;
 
     > div {
       cursor: pointer;
