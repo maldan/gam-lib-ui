@@ -2,7 +2,7 @@
   <div :class="$style.container">
     <input
       :class="$style.input"
-      type="text"
+      type="number"
       :title="placeholder"
       :value="modelValue"
       @input="update"
@@ -13,14 +13,14 @@
 
 <script setup lang="ts">
 defineProps<{
-  modelValue: string;
+  modelValue: number;
   placeholder?: string;
 }>();
 
 const emit = defineEmits(['update:modelValue']);
 
 function update(e: Event) {
-  emit('update:modelValue', (e.target as HTMLInputElement).value);
+  emit('update:modelValue', Number((e.target as HTMLInputElement).value));
 }
 </script>
 

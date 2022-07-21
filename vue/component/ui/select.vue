@@ -1,7 +1,14 @@
 <template>
   <div :class="$style.container">
     <div @click="isShowList = !isShowList" :class="$style.inputContainer">
-      <input :class="$style.input" type="text" :value="selectedValue" :placeholder="placeholder" @blur="blur" />
+      <input
+        :class="$style.input"
+        type="text"
+        :value="selectedValue"
+        :title="placeholder"
+        :placeholder="placeholder"
+        @blur="blur"
+      />
       <IconArrowDownSmall style="position: absolute; right: 8px; top: 8px" />
     </div>
     <div v-if="isShowList" :class="$style.list">
@@ -31,13 +38,14 @@ const props = defineProps<{
 
 const isShowList = ref(false);
 
-const emit = defineEmits(['update:modelValue']);
+const emit = defineEmits(['update:modelValue', 'change']);
 
 const selectedValue = computed(() => props.list.filter((x: any) => x.value === props.modelValue)?.[0]?.label);
 
 function click(v: unknown) {
   console.log(v);
   emit('update:modelValue', v);
+  emit('change', v);
 }
 
 function blur() {

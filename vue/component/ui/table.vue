@@ -8,10 +8,10 @@
 
     <tbody>
       <tr v-for="x in list" :key="x.id">
-        <td v-for="y in cHeader" :key="y">
-          <div v-if="isArray(x[y])"><component :is="huable(x[y])" /></div>
-          <div v-else-if="component && component[y]"><component :is="component[y](x)" /></div>
-          <div v-else v-html="dataFormat(y, x[y])"></div>
+        <td v-for="key in cHeader" :key="key">
+          <div v-if="isArray(x[key])"><component :is="vTable(key, x[key], x)" /></div>
+          <div v-else-if="component && component[key]"><component :is="component[key](x, parent)" /></div>
+          <div v-else v-html="dataFormat(key, x[key])"></div>
         </td>
       </tr>
     </tbody>
@@ -30,6 +30,7 @@ const props = defineProps<{
   format?: Record<string, any>;
   component?: Record<string, any>;
   list: any[];
+  parent?: any;
 }>();
 
 const cHeader = computed(() => {
@@ -41,11 +42,21 @@ const cHeader = computed(() => {
       keys[key] = true;
     }
   }
-  return [...Object.keys(keys), ...Object.keys(props.component || {})];
+  return [...Object.keys(keys), ...Object.keys(props.component || {}).filter((x) => !x.includes('.'))];
 });
 
-const huable = (x: any) => {
-  return h(UITable, { list: x });
+const vTable = (key: string, x: any, parent: any) => {
+  const keys = Object.keys(props.component || {})
+    .filter((x) => x.includes('.') && x.split('.')[0] === key)
+    .map((x) => {
+      return x.split('.').slice(1).join('.');
+    });
+  const components = {};
+  for (let i = 0; i < keys.length; i++) {
+    // @ts-ignore
+    components[keys[i]] = props.component[key + '.' + keys[i]];
+  }
+  return h(UITable, { list: x, component: components, parent });
 };
 
 const isArray = (x: any) => {
@@ -87,7 +98,7 @@ const dataFormat = (key: string, x: any) => {
 
 .table {
   border-collapse: collapse;
-  border: 1px solid $color-white-020;
+  border: 1px solid $color-white-010;
   width: 100%;
   height: auto;
 
@@ -109,7 +120,7 @@ const dataFormat = (key: string, x: any) => {
 
     text-align: left;
     tr {
-      border: 1px solid $color-white-020;
+      border: 1px solid $color-white-010;
 
       td {
         padding: 5px;
