@@ -2,15 +2,25 @@
   <table :class="$style.table">
     <thead>
       <tr>
-        <th v-for="(x, i) in cHeader" :key="x" :style="{ width: size?.[i] || 'auto' }">{{ _.capitalize(x) }}</th>
+        <th
+          v-for="(x, i) in cHeader"
+          :key="x"
+          :style="{ width: size?.[i] || 'auto' }"
+        >
+          {{ _.capitalize(x) }}
+        </th>
       </tr>
     </thead>
 
     <tbody>
       <tr v-for="x in list" :key="x.id">
         <td v-for="key in cHeader" :key="key">
-          <div v-if="isArray(x[key])"><component :is="vTable(key, x[key], x)" /></div>
-          <div v-else-if="component && component[key]"><component :is="component[key](x, parent)" /></div>
+          <div v-if="isArray(x[key])">
+            <component :is="vTable(key, x[key], x)" />
+          </div>
+          <div v-else-if="component && component[key]">
+            <component :is="component[key](x, parent)" />
+          </div>
           <div v-else v-html="dataFormat(key, x[key])"></div>
         </td>
       </tr>
@@ -19,10 +29,10 @@
 </template>
 
 <script setup lang="ts">
-import { computed, h } from 'vue';
-import _ from 'lodash';
-import dayjs from 'dayjs';
-import UITable from './table.vue';
+import { computed, h } from "vue";
+import _ from "lodash";
+import dayjs from "dayjs";
+import UITable from "./table.vue";
 
 const props = defineProps<{
   header?: string[];
@@ -38,23 +48,31 @@ const cHeader = computed(() => {
   for (let i = 0; i < props.list.length; i++) {
     for (const key in props.list[i]) {
       // eslint-disable-next-line no-prototype-builtins
-      if (props.format && props.format.hasOwnProperty(key) && props.format[key] === undefined) continue;
+      if (
+        props.format &&
+        props.format.hasOwnProperty(key) &&
+        props.format[key] === undefined
+      )
+        continue;
       keys[key] = true;
     }
   }
-  return [...Object.keys(keys), ...Object.keys(props.component || {}).filter((x) => !x.includes('.'))];
+  return [
+    ...Object.keys(keys),
+    ...Object.keys(props.component || {}).filter((x) => !x.includes(".")),
+  ];
 });
 
 const vTable = (key: string, x: any, parent: any) => {
   const keys = Object.keys(props.component || {})
-    .filter((x) => x.includes('.') && x.split('.')[0] === key)
+    .filter((x) => x.includes(".") && x.split(".")[0] === key)
     .map((x) => {
-      return x.split('.').slice(1).join('.');
+      return x.split(".").slice(1).join(".");
     });
   const components = {};
   for (let i = 0; i < keys.length; i++) {
     // @ts-ignore
-    components[keys[i]] = props.component[key + '.' + keys[i]];
+    components[keys[i]] = props.component[key + "." + keys[i]];
   }
   return h(UITable, { list: x, component: components, parent });
 };
@@ -72,21 +90,21 @@ const dataFormat = (key: string, x: any) => {
     return x;
   }
   if (props.format[key]) {
-    if (typeof props.format[key] === 'function') {
+    if (typeof props.format[key] === "function") {
       return props.format[key](x);
     }
-    const type = props.format[key].split(':')[0];
+    const type = props.format[key].split(":")[0];
     let params = null;
-    if (props.format[key].split(':').length > 0) {
-      params = props.format[key].split(':').slice(1).join(':');
+    if (props.format[key].split(":").length > 0) {
+      params = props.format[key].split(":").slice(1).join(":");
     }
 
-    if (type === 'time') {
-      return dayjs(x).format('HH:mm:ss');
+    if (type === "time") {
+      return dayjs(x).format("HH:mm:ss");
     }
-    if (type === 'date') {
+    if (type === "date") {
       if (params != null) return dayjs(x).format(params);
-      return dayjs(x).format('HH:mm:ss');
+      return dayjs(x).format("HH:mm:ss");
     }
   }
   return x;
@@ -94,11 +112,11 @@ const dataFormat = (key: string, x: any) => {
 </script>
 
 <style module lang="scss">
-@import '../../vars';
+@import "../../vars";
 
 .table {
   border-collapse: collapse;
-  border: 1px solid $color-white-010;
+
   width: 100%;
   height: auto;
 
@@ -108,6 +126,7 @@ const dataFormat = (key: string, x: any) => {
     text-align: left;
     tr {
       th {
+        border: 1px solid $color-white-010;
         padding: 5px;
       }
     }
@@ -120,9 +139,10 @@ const dataFormat = (key: string, x: any) => {
 
     text-align: left;
     tr {
-      border: 1px solid $color-white-010;
+      // border: 1px solid $color-white-010;
 
       td {
+        border: 1px solid $color-white-010;
         padding: 5px;
       }
     }
