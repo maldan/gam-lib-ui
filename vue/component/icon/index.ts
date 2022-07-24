@@ -14,6 +14,7 @@ import IconControlPanel from "./control.panel.vue";
 import IconCopy from "./copy.vue";
 import IconCube from "./cube.vue";
 import IconDistance from "./distance.vue";
+import IconDumbbell from "./dumbbell.vue";
 import IconEyeHidden from "./eye.hidden.vue";
 import IconEye from "./eye.vue";
 import IconFile from "./file.vue";
@@ -33,6 +34,7 @@ import IconPerson from "./person.vue";
 import IconPlay from "./play.vue";
 import IconPlus from "./plus.vue";
 import IconRename from "./rename.vue";
+import IconRepeat from "./repeat.vue";
 import IconRightScreen from "./right.screen.vue";
 import IconScissors from "./scissors.vue";
 import IconSearch from "./search.vue";
@@ -41,4 +43,4 @@ import IconTitle from "./title.vue";
 import IconTrash from "./trash.vue";
 import IconUpload from "./upload.vue";
 
-export { IconAngleBracketLeft,IconAngleBracketRight,IconArrowDownSmall,IconArrowDown,IconArrowLeftSmall,IconArrowRightSmall,IconArrowUp,IconBulb,IconCalendar,IconCheck,IconCircleFilled,IconClose,IconControlPanel,IconCopy,IconCube,IconDistance,IconEyeHidden,IconEye,IconFile,IconFilm,IconFolder,IconFullScreen,IconGear,IconInfo,IconLeftScreen,IconList,IconMaximize,IconMinimize,IconNotAllowed,IconPaste,IconPencil,IconPerson,IconPlay,IconPlus,IconRename,IconRightScreen,IconScissors,IconSearch,IconStopwatch,IconTitle,IconTrash,IconUpload }
+export { IconAngleBracketLeft,IconAngleBracketRight,IconArrowDownSmall,IconArrowDown,IconArrowLeftSmall,IconArrowRightSmall,IconArrowUp,IconBulb,IconCalendar,IconCheck,IconCircleFilled,IconClose,IconControlPanel,IconCopy,IconCube,IconDistance,IconDumbbell,IconEyeHidden,IconEye,IconFile,IconFilm,IconFolder,IconFullScreen,IconGear,IconInfo,IconLeftScreen,IconList,IconMaximize,IconMinimize,IconNotAllowed,IconPaste,IconPencil,IconPerson,IconPlay,IconPlus,IconRename,IconRepeat,IconRightScreen,IconScissors,IconSearch,IconStopwatch,IconTitle,IconTrash,IconUpload }

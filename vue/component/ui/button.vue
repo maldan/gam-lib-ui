@@ -1,5 +1,5 @@
 <template>
-  <button :class="[$style.button, $style[color]]">
+  <button :class="[$style.button, $style[color]]" :disabled="disabled">
     <slot name="icon-left"></slot>
     <slot />
     <div v-if="text">{{ text }}</div>
@@ -11,6 +11,7 @@
 defineProps<{
   text?: string;
   color?: 'gray' | 'darkgray' | 'empty';
+  disabled?: boolean;
 }>();
 </script>
 
@@ -31,6 +32,16 @@ defineProps<{
   display: flex;
   align-items: center;
   justify-content: center;
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+
+    &:active {
+      opacity: 0.6;
+      top: 0;
+    }
+  }
 
   &:hover {
     background-color: darken($color-main, 10%);

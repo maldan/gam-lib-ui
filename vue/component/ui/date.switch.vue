@@ -11,17 +11,17 @@ import { Button, Row } from '@/gam-lib-ui/vue/component/ui';
 import dayjs from 'dayjs';
 
 const props = defineProps<{
-  modelValue: Date | string;
+  modelValue: string;
 }>();
 
 const emit = defineEmits(['update:modelValue', 'change']);
 
 const offset = (x: number) => {
-  const d = dayjs(props.modelValue).add(x, 'day');
+  const d = dayjs(props.modelValue).add(x, 'day').format('YYYY-MM-DD HH:mm:ss.SSSZ');
   emit('update:modelValue', d);
   emit('change', d);
 };
-const format = (x: Date) => {
+const format = (x: string) => {
   const now = dayjs().format('YYYY-MM-DD');
   const yesterday = dayjs().add(-1, 'day').format('YYYY-MM-DD');
   const tomorrow = dayjs().add(1, 'day').format('YYYY-MM-DD');

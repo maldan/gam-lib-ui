@@ -3,6 +3,7 @@ import Checkbox from './checkbox.vue';
 import Toggle from './toggle.vue';
 import Input from './input.vue';
 import InputNumber from './input.number.vue';
+import InputDate from './input.date.vue';
 import Block from './block.vue';
 import Row from './row.vue';
 import Section from './section.vue';
@@ -14,6 +15,7 @@ import Select from './select.vue';
 import Table from './table.vue';
 import Tree from './tree.vue';
 import DateSwitch from './date.switch.vue';
+import Calendar from './calendar.vue';
 
 export {
   Button,
@@ -21,6 +23,7 @@ export {
   Toggle,
   Input,
   InputNumber,
+  InputDate,
   Block,
   Row,
   Section,
@@ -32,4 +35,5 @@ export {
   Table,
   Tree,
   DateSwitch,
+  Calendar,
 };

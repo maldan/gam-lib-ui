@@ -2,11 +2,7 @@
   <table :class="$style.table">
     <thead>
       <tr>
-        <th
-          v-for="(x, i) in cHeader"
-          :key="x"
-          :style="{ width: size?.[i] || 'auto' }"
-        >
+        <th v-for="x in cHeader" :key="x" :style="{ width: size?.[x] || 'auto' }">
           {{ _.capitalize(x) }}
         </th>
       </tr>
@@ -21,7 +17,7 @@
           <div v-else-if="component && component[key]">
             <component :is="component[key](x, parent)" />
           </div>
-          <div v-else v-html="dataFormat(key, x[key])"></div>
+          <div v-else v-html="format(key, x[key], x)"></div>
         </td>
       </tr>
     </tbody>
@@ -29,82 +25,112 @@
 </template>
 
 <script setup lang="ts">
-import { computed, h } from "vue";
-import _ from "lodash";
-import dayjs from "dayjs";
-import UITable from "./table.vue";
+import { computed, h } from 'vue';
+import _ from 'lodash';
+import dayjs from 'dayjs';
+import UITable from './table.vue';
 
 const props = defineProps<{
-  header?: string[];
-  size?: string[];
-  format?: Record<string, any>;
+  header?: Record<string, any>;
+  size?: Record<string, any>;
   component?: Record<string, any>;
   list: any[];
   parent?: any;
 }>();
 
+// Build header
 const cHeader = computed(() => {
   const keys = {} as Record<string, unknown>;
-  for (let i = 0; i < props.list.length; i++) {
-    for (const key in props.list[i]) {
-      // eslint-disable-next-line no-prototype-builtins
-      if (
-        props.format &&
-        props.format.hasOwnProperty(key) &&
-        props.format[key] === undefined
-      )
-        continue;
-      keys[key] = true;
+
+  if (!props.header) {
+    for (let i = 0; i < props.list.length; i++) {
+      for (const key in props.list[i]) {
+        keys[key] = true;
+      }
     }
+    return [...Object.keys(keys), ...Object.keys(props.component || {}).filter((x) => !x.includes('.'))];
+  } else {
+    return [
+      ...Object.keys(props.header).filter((x) => !x.includes('.')),
+      ...Object.keys(props.component || {}).filter((x) => !x.includes('.')),
+    ];
   }
-  return [
-    ...Object.keys(keys),
-    ...Object.keys(props.component || {}).filter((x) => !x.includes(".")),
-  ];
 });
 
+// Inject table
 const vTable = (key: string, x: any, parent: any) => {
-  const keys = Object.keys(props.component || {})
-    .filter((x) => x.includes(".") && x.split(".")[0] === key)
+  const componentKeys = Object.keys(props.component || {})
+    .filter((x) => x.includes('.') && x.split('.')[0] === key)
     .map((x) => {
-      return x.split(".").slice(1).join(".");
+      return x.split('.').slice(1).join('.');
     });
-  const components = {};
-  for (let i = 0; i < keys.length; i++) {
+  const component = {};
+  for (let i = 0; i < componentKeys.length; i++) {
     // @ts-ignore
-    components[keys[i]] = props.component[key + "." + keys[i]];
+    component[componentKeys[i]] = props.component[key + '.' + componentKeys[i]];
   }
-  return h(UITable, { list: x, component: components, parent });
+
+  const outProps = { list: x, component, parent } as any;
+
+  // Has header
+  if (props.header) {
+    const headerKeys = Object.keys(props.header || {})
+      .filter((x) => x.includes('.') && x.split('.')[0] === key)
+      .map((x) => {
+        return x.split('.').slice(1).join('.');
+      });
+    const header = {};
+    for (let i = 0; i < headerKeys.length; i++) {
+      // @ts-ignore
+      header[headerKeys[i]] = props.header[key + '.' + headerKeys[i]];
+    }
+
+    if (headerKeys.length > 0) outProps.header = header;
+  }
+
+  // Has size
+  if (props.size) {
+    const keys = Object.keys(props.size || {})
+      .filter((x) => x.includes('.') && x.split('.')[0] === key)
+      .map((x) => {
+        return x.split('.').slice(1).join('.');
+      });
+    const size = {};
+    for (let i = 0; i < keys.length; i++) {
+      // @ts-ignore
+      size[keys[i]] = props.size[key + '.' + keys[i]];
+    }
+
+    outProps.size = size;
+  }
+
+  return h(UITable, outProps);
 };
 
 const isArray = (x: any) => {
   return Array.isArray(x);
 };
 
-/*const isComponent = (x: any) => {
-  return typeof x === 'object';
-};*/
-
-const dataFormat = (key: string, x: any) => {
-  if (!props.format) {
+const format = (key: string, x: any, y: any) => {
+  if (!props.header) {
     return x;
   }
-  if (props.format[key]) {
-    if (typeof props.format[key] === "function") {
-      return props.format[key](x);
+  if (props.header[key]) {
+    if (typeof props.header[key] === 'function') {
+      return props.header[key](x, y);
     }
-    const type = props.format[key].split(":")[0];
+    const type = props.header[key].split(':')[0];
     let params = null;
-    if (props.format[key].split(":").length > 0) {
-      params = props.format[key].split(":").slice(1).join(":");
+    if (props.header[key].split(':').length > 0) {
+      params = props.header[key].split(':').slice(1).join(':');
     }
 
-    if (type === "time") {
-      return dayjs(x).format("HH:mm:ss");
+    if (type === 'time') {
+      return dayjs(x).format('HH:mm:ss');
     }
-    if (type === "date") {
-      if (params != null) return dayjs(x).format(params);
-      return dayjs(x).format("HH:mm:ss");
+    if (type === 'date') {
+      if (params) return dayjs(x).format(params);
+      return dayjs(x).format('YYYY-MM-DD HH:mm:ss');
     }
   }
   return x;
@@ -112,7 +138,7 @@ const dataFormat = (key: string, x: any) => {
 </script>
 
 <style module lang="scss">
-@import "../../vars";
+@import '../../vars';
 
 .table {
   border-collapse: collapse;
