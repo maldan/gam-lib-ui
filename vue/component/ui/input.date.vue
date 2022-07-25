@@ -6,7 +6,7 @@
         {{ dayjs(modelValue).format('YYYY-MM-DD') }}
       </Button>
 
-      <Calendar v-if="isShowCalendar" @change="isShowCalendar = false" :class="$style.calendar" v-model="modelValue" />
+      <Calendar v-if="isShowCalendar" @select="isShowCalendar = false" :class="$style.calendar" v-model="modelValue" />
     </div>
 
     <!-- Time -->

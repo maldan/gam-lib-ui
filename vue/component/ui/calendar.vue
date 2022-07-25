@@ -22,9 +22,8 @@
         ]"
         v-for="x in dates"
         :key="x"
-      >
-        <span>{{ dayjs(x).format('D') }}</span>
-      </div>
+        v-html="dateFormat(x)"
+      ></div>
     </div>
   </div>
 </template>
@@ -32,14 +31,14 @@
 <script setup lang="ts">
 import dayjs from 'dayjs';
 import Button from '@/gam-lib-ui/vue/component/ui/button.vue';
-import { IconStopwatch } from '@/gam-lib-ui/vue/component/icon';
 import { onMounted, ref } from 'vue';
 
 const props = defineProps<{
   modelValue: string;
+  format?: (date: Date, day: string) => any;
 }>();
 
-const emit = defineEmits(['update:modelValue', 'change']);
+const emit = defineEmits(['update:modelValue', 'select', 'change']);
 
 // Vars
 const dates = ref<Date[]>([]);
@@ -80,6 +79,10 @@ function changeDate(amount: number, type: 'month' | 'year') {
       year.value += 1;
     }
   }
+  emit(
+    'change',
+    dayjs(props.modelValue).set('year', year.value).set('month', month.value).format('YYYY-MM-DD HH:mm:ss.SSSZ'),
+  );
   buildDates();
 }
 
@@ -87,7 +90,7 @@ const clickOnDate = (x: Date) => {
   x.setHours(new Date().getHours(), new Date().getMinutes(), new Date().getSeconds());
 
   emit('update:modelValue', dayjs(x).format('YYYY-MM-DD HH:mm:ss.SSSZ'));
-  emit('change', dayjs(x).format('YYYY-MM-DD HH:mm:ss.SSSZ'));
+  emit('select', dayjs(x).format('YYYY-MM-DD HH:mm:ss.SSSZ'));
 };
 
 function isCurrentMonth(x: Date) {
@@ -141,6 +144,11 @@ function buildDates() {
     ...nextMonth.slice(0, 7 - current[current.length - 1].getDay()),
   ];
 }
+
+function dateFormat(x: Date) {
+  if (props.format) return props.format(x, dayjs(x).format('D'));
+  return dayjs(x).format('D');
+}
 </script>
 
 <style module lang="scss">
@@ -164,7 +172,7 @@ function buildDates() {
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
 
     > div {
-      padding: 10px;
+      padding: 5px;
       border: 1px solid $color-white-010;
       font-weight: bold;
       text-align: center;
@@ -178,11 +186,12 @@ function buildDates() {
     justify-content: center;
 
     .day {
-      padding: 10px;
+      padding: 5px;
       border: 1px solid $color-white-010;
       text-align: center;
       color: $color-white-020;
       cursor: pointer;
+      position: relative;
 
       &.currentMonth {
         color: $color-white-060;

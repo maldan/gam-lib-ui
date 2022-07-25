@@ -3,7 +3,12 @@
     <thead>
       <tr>
         <th v-for="x in cHeader" :key="x" :style="{ width: size?.[x] || 'auto' }">
-          {{ _.capitalize(x) }}
+          {{
+            _.kebabCase(x)
+              .split('-')
+              .map((y) => _.capitalize(y))
+              .join(' ')
+          }}
         </th>
       </tr>
     </thead>
@@ -20,6 +25,13 @@
           <div v-else v-html="format(key, x[key], x)"></div>
         </td>
       </tr>
+
+      <!-- Total -->
+      <tr v-if="total">
+        <td :class="$style.total" v-for="key in cHeader" :key="key">
+          <div v-html="total[key] ? total[key](list) : null"></div>
+        </td>
+      </tr>
     </tbody>
   </table>
 </template>
@@ -33,6 +45,7 @@ import UITable from './table.vue';
 const props = defineProps<{
   header?: Record<string, any>;
   size?: Record<string, any>;
+  total?: Record<string, () => any>;
   component?: Record<string, any>;
   list: any[];
   parent?: any;
@@ -170,6 +183,10 @@ const format = (key: string, x: any, y: any) => {
       td {
         border: 1px solid $color-white-010;
         padding: 5px;
+
+        > div {
+          display: flex;
+        }
       }
     }
   }

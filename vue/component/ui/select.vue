@@ -4,20 +4,20 @@
       <input
         :class="$style.input"
         type="text"
-        :value="selectedValue"
         :title="placeholder"
         :placeholder="placeholder"
         @blur="blur"
+        v-model="filter"
       />
       <IconArrowDownSmall style="position: absolute; right: 8px; top: 8px" />
     </div>
     <div v-if="isShowList" :class="$style.list">
       <div
         @click="
-          click(x.value);
+          click(x.value, x.label);
           isShowList = false;
         "
-        v-for="x in list"
+        v-for="x in list.filter((y) => y.label.match(filter))"
         :key="x.value"
       >
         {{ x.label }}
@@ -41,9 +41,10 @@ const isShowList = ref(false);
 const emit = defineEmits(['update:modelValue', 'change']);
 
 const selectedValue = computed(() => props.list.filter((x: any) => x.value === props.modelValue)?.[0]?.label);
+const filter = ref(selectedValue.value);
 
-function click(v: unknown) {
-  console.log(v);
+function click(v: unknown, label: string) {
+  filter.value = label;
   emit('update:modelValue', v);
   emit('change', v);
 }
@@ -94,10 +95,12 @@ function blur() {
     position: absolute;
     left: 0;
     top: 30px;
-    // padding: $space-1;
     width: 100%;
     border: 1px solid $color-white-020;
     z-index: 10;
+    max-height: 240px;
+    overflow-y: auto;
+    background: $color-ui-bg;
 
     > div {
       cursor: pointer;
