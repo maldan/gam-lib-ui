@@ -3,6 +3,7 @@ import Checkbox from './checkbox.vue';
 import Toggle from './toggle.vue';
 import Input from './input.vue';
 import InputNumber from './input.number.vue';
+import InputFile from './input.file.vue';
 import InputDate from './input.date.vue';
 import Block from './block.vue';
 import Row from './row.vue';
@@ -36,4 +37,5 @@ export {
   Tree,
   DateSwitch,
   Calendar,
+  InputFile,
 };
