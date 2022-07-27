@@ -73,6 +73,10 @@ defineProps<{
     padding: 0;
     border: 0;
     box-shadow: none;
+
+    &:hover {
+      opacity: 0.9;
+    }
   }
 }
 </style>
