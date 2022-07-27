@@ -1,0 +1,59 @@
+
+    <template>
+      <svg
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        :fill="color"
+        xmlns="http://www.w3.org/2000/svg"
+        :style="{
+          width: size + 'px',
+          height: size + 'px',
+        }"
+        :class="clickable ?$style.clickable :null"
+      >
+        
+    <path d="M4 17H10V19H6C4.89543 19 4 18.1046 4 17V17Z" :fill="color"/>
+    <path d="M4 8C4 6.89543 4.89543 6 6 6V6V17H4V8Z" :fill="color"/>
+    <path d="M6 6H18C19.1046 6 20 6.89543 20 8V8H6V6Z" :fill="color"/>
+    <path d="M18 8H20V17C20 18.1046 19.1046 19 18 19V19V8Z" :fill="color"/>
+    <path d="M15 17H18V19H15V17Z" :fill="color"/>
+    <path d="M13 18L15 16V20L13 18Z" :fill="color"/>
+
+
+      </svg>
+    </template>
+    
+    <script setup lang="ts">
+      withDefaults(
+        defineProps<{
+          color?: string;
+          size?: number | string;
+          clickable?: boolean;
+        }>(),
+        {
+          color: "#fefefe",
+          size: 16,
+        }
+      );
+    </script>
+    
+    <style module lang="scss">
+      svg {
+        display: block;
+      }
+      .clickable {
+        cursor: pointer;
+        
+        &:hover {
+           opacity: 0.8;
+        }
+      
+        &:active {
+          opacity: 0.7;
+          position: relative;
+          top: 1px;
+        }
+      }
+    </style>
+  
