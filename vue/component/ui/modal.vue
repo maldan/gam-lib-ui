@@ -22,14 +22,17 @@
   align-items: center;
   justify-content: center;
   z-index: 10;
+  backdrop-filter: blur(12px);
 
   .window {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: $color-ui-bg;
+    background: rgba(0, 0, 0, 0.7);
     color: $color-white-060;
     padding: 10px;
+    border-radius: 12px;
+    box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.8);
   }
 }
 </style>
